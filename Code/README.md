@@ -1,136 +1,39 @@
-# UML State Diagram Generation Pipeline
+# UML State Transition Diagram Generation Pipeline
 
-This folder contains the code used to prepare requirement files, generate
-PlantUML state diagrams, run validation-based repair, and report syntax and
-structural validity.
+This folder contains the code used to generate PlantUML State Transition Diagrams, run validation-based repair, and report syntax and structural validity.
 
-## Folder Layout
-
-The repository should contain these folders:
-
-```text
-Code/
-Dataset/
-Data/
-results/
-```
-
-Each dataset case should contain:
-
-```text
-Dataset/
-  case_01_example/
-    raw_requirement.txt
-    structured_requirement.txt
-    aligned_requirement.txt
-    book_diagram.png
-    diagram.puml
-```
-
-The generation prompts use `structured_requirement.txt`. The reference diagram
-is read from `diagram.puml`.
-
-The optional RAG data is under:
-
-```text
-Data/
-  rag_corpus/
-    dataset_examples/
-    plantuml_rules/
-    state_diagram_theory/
-  processed/
-    experiments/
-      split_35_seed42.json
-```
+For repository-level context, see [../README.md](../README.md). For dataset and RAG resource details, see [../Dataset/README.md](../Dataset/README.md) and [../Data/README.md](../Data/README.md).
 
 ## Main Scripts
 
-`hybrid_requirement_pipeline.py` prepares structured functional requirements
-from raw requirement text. It is only needed when `structured_requirement.txt`
-files have not already been prepared.
-
-`plantuml_experiment_pipeline.py` is the main command-line entry point for
-creating splits, running diagram generation, applying repair, and recomputing
-metrics.
-
-`build_rag_index.py` builds the Chroma vector index from Markdown files in
-`Data/rag_corpus/`.
-
-`create_rag_dataset_examples.py` creates RAG example Markdown files from the
-training part of the dataset.
-
-`create_rag_analysis_corpora.py` copies existing RAG documents into smaller
-analysis corpora, such as examples-only, rules-only, or theory-only.
-
-`build_repair_iteration_artifacts.py` summarizes repair attempts and prepares
-repair-iteration review files.
-
-`report_validity_percentages.py` reports PlantUML syntax validity and stricter
-state-diagram structural validity.
-
-## Pipeline Package
-
-`plantuml_pipeline/cli.py` defines the command-line arguments.
-
-`plantuml_pipeline/commands.py` implements the split, run, metrics, and table
-commands.
-
-`plantuml_pipeline/constants.py` stores default paths and regular expressions
-used while parsing PlantUML.
-
-`plantuml_pipeline/dataset.py` loads dataset cases and reads
-`structured_requirement.txt`.
-
-`plantuml_pipeline/generation.py` runs diagram-generation attempts, validation,
-and repair.
-
-`plantuml_pipeline/io_utils.py` contains small helpers for reading and writing
-text, JSON, and JSONL files.
-
-`plantuml_pipeline/metrics.py` compares generated diagrams with reference
-diagrams and computes graph, syntax, and structural-validity metrics.
-
-`plantuml_pipeline/model_client.py` sends prompts to local models through
-Ollama.
-
-`plantuml_pipeline/models.py` defines the dataclasses shared across the
-pipeline.
-
-`plantuml_pipeline/parser.py` normalizes PlantUML text, extracts states and
-transitions, and checks PlantUML/state-diagram validity.
-
-`plantuml_pipeline/prompting.py` builds zero-shot, few-shot, RAG, and repair
-prompts.
+1. `plantuml_experiment_pipeline.py` is the main command-line entry point for creating splits, running diagram generation, applying repair, and recomputing metrics.
+2. `plantuml_pipeline/` contains the reusable pipeline package.
+3. `build_rag_index.py` builds the Chroma vector index from Markdown files in `Data/rag_corpus/`.
+4. `create_rag_dataset_examples.py` creates RAG example Markdown files from the training part of the dataset.
+5. `create_rag_analysis_corpora.py` copies existing RAG documents into smaller analysis corpora.
+6. `hybrid_requirement_pipeline.py` prepares structured functional requirements from raw requirement text when needed.
+7. `build_repair_iteration_artifacts.py` summarizes repair attempts and prepares repair-iteration review files.
+8. `report_validity_percentages.py` reports PlantUML syntax validity and stricter State Transition Diagram structural validity.
 
 ## Requirements
 
-Start Ollama before running generation:
+1. Start Ollama before running generation:
 
 ```bash
 ollama serve
 ```
 
-Install Chroma if vector RAG is used:
+2. Install Chroma if vector RAG is used:
 
 ```bash
 pip install chromadb
 ```
 
-For PlantUML render checking, the `plantuml` command should also be available
-on the system path.
+3. Make sure the `plantuml` command is available on the system path for syntax checking.
 
 ## Workflow
 
-Prepare structured requirement files only if they are missing:
-
-```bash
-PYTHONPATH=Code \
-python3 Code/hybrid_requirement_pipeline.py \
-  --dataset-root Dataset \
-  --output-name structured_requirement.txt
-```
-
-Create the train/test split:
+1. Create the train/test split:
 
 ```bash
 PYTHONPATH=Code \
@@ -139,17 +42,7 @@ python3 Code/plantuml_experiment_pipeline.py split \
   --output Data/processed/experiments/split_35_seed42.json
 ```
 
-Create RAG example documents if they are missing:
-
-```bash
-PYTHONPATH=Code \
-python3 Code/create_rag_dataset_examples.py \
-  --dataset-root Dataset \
-  --split-file Data/processed/experiments/split_35_seed42.json \
-  --output-dir Data/rag_corpus/dataset_examples
-```
-
-Build the vector RAG index:
+2. Build the vector RAG index:
 
 ```bash
 PYTHONPATH=Code \
@@ -158,7 +51,7 @@ python3 Code/build_rag_index.py \
   --rag-db-dir results/rag_db
 ```
 
-Run all configured generation strategies for all test-split cases:
+3. Run all configured generation strategies:
 
 ```bash
 PYTHONPATH=Code \
@@ -170,24 +63,7 @@ python3 Code/plantuml_experiment_pipeline.py run \
   --save-prompts
 ```
 
-This includes zero-shot, few-shot, RAG, validation, and repair-enabled
-strategies.
-
-## Validation Flow
-
-The validation flow is separate from prompting, but it is used by both the
-generation and repair stages.
-
-First, the generated PlantUML is normalized and parsed. Then the parser checks
-basic PlantUML syntax and state-diagram structure, including states,
-transitions, initial states, final states, and unreachable states. The detected
-errors and warnings are saved with the run metadata.
-
-For repair-enabled strategies, the same validation issues are passed into the
-repair prompt. The repaired diagram is validated again, and the pipeline keeps
-the repaired version only when the validation score improves.
-
-To validate one PlantUML file directly:
+4. Validate one PlantUML file directly:
 
 ```bash
 PYTHONPATH=Code \
@@ -196,7 +72,7 @@ python3 Code/plantuml_experiment_pipeline.py validate \
   --json
 ```
 
-To recompute validation and metric outputs for generated diagrams:
+5. Recompute metrics for generated diagrams:
 
 ```bash
 PYTHONPATH=Code \
@@ -205,68 +81,27 @@ python3 Code/plantuml_experiment_pipeline.py metrics \
   --results-root results/plantuml_pipeline
 ```
 
-To report syntax-valid and structurally-valid percentages:
 
-```bash
-PYTHONPATH=Code \
-python3 Code/report_validity_percentages.py
-```
 
-Run a quick check on one case:
+6. Run a quick non-RAG check on one case:
 
 ```bash
 PYTHONPATH=Code \
 python3 Code/plantuml_experiment_pipeline.py run \
   --dataset-root Dataset \
   --results-root results/plantuml_pipeline \
-  --rag-db-dir results/rag_db \
+  --only-run-id open_source__qwen25_7b_instruct__zero_shot \
   --only-case-id case_01_healthcare_portal \
   --runs 1 \
   --save-prompts
 ```
 
-Run only one strategy by selecting its run IDs. For example, zero-shot:
+## Validation Flow
 
-```bash
-PYTHONPATH=Code \
-python3 Code/plantuml_experiment_pipeline.py run \
-  --dataset-root Dataset \
-  --results-root results/plantuml_pipeline \
-  --rag-db-dir results/rag_db \
-  --only-run-id open_source__qwen25_7b_instruct__zero_shot \
-  --only-run-id open_source__mistral__zero_shot \
-  --only-run-id open_source__llama31_8b_instruct__zero_shot \
-  --only-run-id open_source__deepseek_r1_14b__zero_shot \
-  --runs 3 \
-  --save-prompts
-```
+1. Generated PlantUML is normalized and parsed.
+2. The parser checks PlantUML syntax and State Transition Diagram structure.
+3. Detected errors and warnings are saved with run metadata.
+4. Repair-enabled strategies pass validation issues into the repair prompt.
+5. The repaired diagram is kept only when the validation score improves.
 
-For few-shot, replace `zero_shot` with `few_shot` and set
-`--few-shot-count` if needed. For RAG, replace `zero_shot` with `rag`.
-
-Run only the RAG repair strategy:
-
-```bash
-PYTHONPATH=Code \
-python3 Code/plantuml_experiment_pipeline.py run \
-  --dataset-root Dataset \
-  --results-root results/plantuml_pipeline \
-  --rag-db-dir results/rag_db \
-  --only-run-id open_source__qwen25_7b_instruct__rag_validation_generator_critic_repair \
-  --only-run-id open_source__mistral__rag_validation_generator_critic_repair \
-  --only-run-id open_source__llama31_8b_instruct__rag_validation_generator_critic_repair \
-  --only-run-id open_source__deepseek_r1_14b__rag_validation_generator_critic_repair \
-  --repair-attempts 3 \
-  --runs 3 \
-  --save-prompts
-```
-
-Repair iteration summaries can be produced with:
-
-```bash
-PYTHONPATH=Code \
-python3 Code/build_repair_iteration_artifacts.py
-```
-
-Generated diagrams, prompts, metadata, and metric summaries are written under
-`results/plantuml_pipeline/`.
+Generated diagrams, prompts, metadata, and metric summaries are written under `results/plantuml_pipeline/`.

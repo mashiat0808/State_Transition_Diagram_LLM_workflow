@@ -1,80 +1,61 @@
 # State Transition Diagram LLM Workflow
 
-MTA: REFER PAPER
+This repository supports the paper **Towards Reliable AI-Assisted Behavioral Modeling: Evaluating Prompting, Retrieval, and Repair Strategies for UML State Transition Diagram Generation**.
 
-This repository contains the dataset, prompts, validation rules, and human evaluation materials used to study how LLMs generate UML state transition diagrams from natural-language requirements.
+It contains the dataset, prompts, validation rules, human evaluation materials, retrieval resources, and runnable code used to study how LLMs generate UML State Transition Diagrams from natural-language requirements.
 
 ## Overview
 
 The repository can be used to execute the following workflows:
 
-- direct generation of PlantUML state diagrams from requirements
-- one-shot and few-shot generation with example guidance
-- retrieval-augmented generation using supporting reference context
-- repair of candidate PlantUML diagrams using validation feedback
-- human evaluation and structural validation of generated diagrams
+1. Direct generation of PlantUML State Transition Diagrams from requirements.
+2. One-shot and few-shot generation with example guidance.
+3. Retrieval-augmented generation using supporting reference context.
+4. Repair of candidate PlantUML diagrams using validation feedback.
+5. Human evaluation and structural validation of generated diagrams.
 
 ## Repository Structure
 
 ```text
 State_Transition_Diagram_LLM_workflow/
-|-- Code/
-|   |-- plantuml_pipeline/
-|   `-- *.py
-|-- Dataset/
-|   |-- case_01_*/
-|   |-- case_02_*/
-|   `-- ...
-|-- Data/
-|   |-- processed/
-|   `-- rag_corpus/
-|-- Prompts/
-|   |-- zero_shot_prompt.txt
-|   |-- one_shot_prompt.txt
-|   |-- fewshot_prompt.txt
-|   |-- rag_prompt.txt
-|   `-- repair_prompt.txt
-|-- Evaluation Form - UML State Diagram Scoring - Google Forms.pdf
-`-- Validation rules for Structural Validation.pdf
+|-- Code/        Python pipeline for generation, validation, repair, and metrics.
+|-- Dataset/     Requirement cases and reference PlantUML diagrams.
+|-- Data/        Processed split files and retrieval resources.
+|-- Prompts/     Prompt templates for generation and repair.
+|-- Evaluation form PDF
+|                Human evaluation form used in the study.
+|-- Validation rules for Structural Validation.pdf
+|                Structural validation rules used for generated diagrams.
+`-- README.md    Top-level repository guide.
 ```
+
+## Documentation Guide
+
+1. [Code/README.md](Code/README.md) explains how to run the Python pipeline and command-line scripts.
+2. [Dataset/README.md](Dataset/README.md) explains the requirement case folders and reference diagram files.
+3. [Data/README.md](Data/README.md) explains the processed split file and RAG corpus resources.
+4. `Prompts/` contains the prompt templates used by the generation and repair workflows.
 
 ## Dataset
 
-The `Dataset` folder contains the individual requirement cases used in the workflow. Each case folder typically includes:
-
-- `raw_requirement.txt` - the original natural-language requirement
-- `structured_requirement.txt` - the manually structured requirement format used downstream
-- `aligned_requirement.txt` - the aligned requirement text used for traceability
-- `diagram.puml` - the reference PlantUML state diagram
-- `book_diagram.png` - the rendered diagram image
-
-The dataset currently includes 80 cases.
+The `Dataset` folder contains 80 requirement cases and their reference PlantUML State Transition Diagrams. See [Dataset/README.md](Dataset/README.md) for the case-file structure.
 
 ## Prompts
 
 The `Prompts` folder contains five prompt variants:
 
-- `zero_shot_prompt.txt` - generates a diagram without examples, using only the task instructions
-- `one_shot_prompt.txt` - adds one worked example to demonstrate the expected format
-- `fewshot_prompt.txt` - adds multiple worked examples to provide stronger guidance
-- `rag_prompt.txt` - uses supporting reference context alongside the target requirement
-- `repair_prompt.txt` - repairs a candidate PlantUML diagram using validation issues with the smallest possible edit
-
-Across these prompts, the shared expectations are:
-
-- identify the relevant system states and transition triggers
-- include exactly one initial state and at least one final state
-- output only valid PlantUML code
-- avoid explanations, markdown fences, or extra prose
-- preserve the meaning of the requirement when repairing a diagram
+1. `zero_shot_prompt.txt` - generates a diagram without examples.
+2. `one_shot_prompt.txt` - adds one worked example.
+3. `fewshot_prompt.txt` - adds multiple worked examples.
+4. `rag_prompt.txt` - uses supporting reference context with the target requirement.
+5. `repair_prompt.txt` - repairs a candidate PlantUML diagram using validation issues.
 
 ## Evaluation and Validation
 
-- `Evaluation Form - UML State Diagram Scoring - Google Forms.pdf` is used for the human evaluation section
-- `Validation rules for Structural Validation.pdf` contains the rules used for structural validation
-
+1. The evaluation form PDF is used for the human evaluation section.
+2. `Validation rules for Structural Validation.pdf` contains the rules used for structural validation.
 
 ## Notes
 
-- This repository is organized as a research and evaluation artifact collection.
-- The prompt set covers direct generation, retrieval-augmented generation, and repair.
+1. This repository is organized as a research and evaluation artifact collection.
+2. The prompt set covers direct generation, retrieval-augmented generation, and repair.
