@@ -16,10 +16,16 @@ The repository supports several related workflows:
 
 ```text
 State_Transition_Diagram_LLM_workflow/
+|-- Code/
+|   |-- plantuml_pipeline/
+|   `-- *.py
 |-- Dataset/
 |   |-- case_01_*/
 |   |-- case_02_*/
 |   `-- ...
+|-- Data/
+|   |-- processed/
+|   `-- rag_corpus/
 |-- Prompts/
 |   |-- zero_shot_prompt.txt
 |   |-- one_shot_prompt.txt
@@ -36,7 +42,7 @@ The `Dataset` folder contains the individual requirement cases used in the workf
 
 - `raw_requirement.txt` - the original natural-language requirement
 - `structured_requirement.txt` - the manually structured requirement format used downstream
-- `bidirectionally_aligned_requirement.txt` - the aligned requirement text used for traceability
+- `aligned_requirement.txt` - the aligned requirement text used for traceability
 - `diagram.puml` - the reference PlantUML state diagram
 - `book_diagram.png` - the rendered diagram image
 

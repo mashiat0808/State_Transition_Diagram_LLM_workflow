@@ -11,9 +11,9 @@ from plantuml_pipeline.constants import PROJECT_ROOT
 from plantuml_pipeline.dataset import load_cases
 
 
-DEFAULT_SPLIT = PROJECT_ROOT / "data" / "processed" / "experiments" / "split_35_seed42.json"
-DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "data" / "rag_corpus" / "dataset_examples"
-DEFAULT_MANIFEST = PROJECT_ROOT / "data" / "rag_corpus" / "dataset_examples_manifest.csv"
+DEFAULT_SPLIT = PROJECT_ROOT / "Data" / "processed" / "experiments" / "split_35_seed42.json"
+DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "Data" / "rag_corpus" / "dataset_examples"
+DEFAULT_MANIFEST = PROJECT_ROOT / "Data" / "rag_corpus" / "dataset_examples_manifest.csv"
 
 
 def title_from_requirement(requirement: str, case_id: str) -> str:
@@ -65,7 +65,7 @@ def main() -> int:
     parser.add_argument(
         "--dataset-root",
         type=Path,
-        default=PROJECT_ROOT / "dataset",
+        default=PROJECT_ROOT / "Dataset",
         help="Dataset folder containing case_* directories.",
     )
     parser.add_argument(

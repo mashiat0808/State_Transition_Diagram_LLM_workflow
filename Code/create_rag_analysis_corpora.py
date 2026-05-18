@@ -8,8 +8,8 @@ from pathlib import Path
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_SOURCE_ROOT = PROJECT_ROOT / "data" / "rag_corpus"
-DEFAULT_OUTPUT_ROOT = PROJECT_ROOT / "data" / "rag_analysis"
+DEFAULT_SOURCE_ROOT = PROJECT_ROOT / "Data" / "rag_corpus"
+DEFAULT_OUTPUT_ROOT = PROJECT_ROOT / "Data" / "rag_analysis"
 
 ANALYSIS_GROUPS = {
     "examples_only": ["dataset_examples"],

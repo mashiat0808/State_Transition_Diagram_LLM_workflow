@@ -12,7 +12,7 @@ from plantuml_pipeline.model_client import call_model
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_DATASET_ROOT = PROJECT_ROOT / "dataset"
+DEFAULT_DATASET_ROOT = PROJECT_ROOT / "Dataset"
 
 DEFAULT_MODEL = "qwen2.5:7b-instruct"
 DEFAULT_OLLAMA_HOST = "http://127.0.0.1:11434"

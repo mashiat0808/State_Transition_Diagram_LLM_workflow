@@ -9,16 +9,16 @@ structural validity.
 The repository should contain these folders:
 
 ```text
-code/
-dataset/
-data/
+Code/
+Dataset/
+Data/
 results/
 ```
 
 Each dataset case should contain:
 
 ```text
-dataset/
+Dataset/
   case_01_example/
     raw_requirement.txt
     structured_requirement.txt
@@ -33,7 +33,7 @@ is read from `diagram.puml`.
 The optional RAG data is under:
 
 ```text
-data/
+Data/
   rag_corpus/
     dataset_examples/
     plantuml_rules/
@@ -54,7 +54,7 @@ creating splits, running diagram generation, applying repair, and recomputing
 metrics.
 
 `build_rag_index.py` builds the Chroma vector index from Markdown files in
-`data/rag_corpus/`.
+`Data/rag_corpus/`.
 
 `create_rag_dataset_examples.py` creates RAG example Markdown files from the
 training part of the dataset.
@@ -124,46 +124,46 @@ on the system path.
 Prepare structured requirement files only if they are missing:
 
 ```bash
-PYTHONPATH=code \
-python3 code/hybrid_requirement_pipeline.py \
-  --dataset-root dataset \
+PYTHONPATH=Code \
+python3 Code/hybrid_requirement_pipeline.py \
+  --dataset-root Dataset \
   --output-name structured_requirement.txt
 ```
 
 Create the train/test split:
 
 ```bash
-PYTHONPATH=code \
-python3 code/plantuml_experiment_pipeline.py split \
-  --dataset-root dataset \
-  --output data/processed/experiments/split_35_seed42.json
+PYTHONPATH=Code \
+python3 Code/plantuml_experiment_pipeline.py split \
+  --dataset-root Dataset \
+  --output Data/processed/experiments/split_35_seed42.json
 ```
 
 Create RAG example documents if they are missing:
 
 ```bash
-PYTHONPATH=code \
-python3 code/create_rag_dataset_examples.py \
-  --dataset-root dataset \
-  --split-file data/processed/experiments/split_35_seed42.json \
-  --output-dir data/rag_corpus/dataset_examples
+PYTHONPATH=Code \
+python3 Code/create_rag_dataset_examples.py \
+  --dataset-root Dataset \
+  --split-file Data/processed/experiments/split_35_seed42.json \
+  --output-dir Data/rag_corpus/dataset_examples
 ```
 
 Build the vector RAG index:
 
 ```bash
-PYTHONPATH=code \
-python3 code/build_rag_index.py \
-  --rag-docs-dir data/rag_corpus \
+PYTHONPATH=Code \
+python3 Code/build_rag_index.py \
+  --rag-docs-dir Data/rag_corpus \
   --rag-db-dir results/rag_db
 ```
 
 Run all configured generation strategies for all test-split cases:
 
 ```bash
-PYTHONPATH=code \
-python3 code/plantuml_experiment_pipeline.py run \
-  --dataset-root dataset \
+PYTHONPATH=Code \
+python3 Code/plantuml_experiment_pipeline.py run \
+  --dataset-root Dataset \
   --results-root results/plantuml_pipeline \
   --rag-db-dir results/rag_db \
   --runs 3 \
@@ -190,8 +190,8 @@ the repaired version only when the validation score improves.
 To validate one PlantUML file directly:
 
 ```bash
-PYTHONPATH=code \
-python3 code/plantuml_experiment_pipeline.py validate \
+PYTHONPATH=Code \
+python3 Code/plantuml_experiment_pipeline.py validate \
   --puml results/plantuml_pipeline/example_diagram.puml \
   --json
 ```
@@ -199,28 +199,28 @@ python3 code/plantuml_experiment_pipeline.py validate \
 To recompute validation and metric outputs for generated diagrams:
 
 ```bash
-PYTHONPATH=code \
-python3 code/plantuml_experiment_pipeline.py metrics \
-  --dataset-root dataset \
+PYTHONPATH=Code \
+python3 Code/plantuml_experiment_pipeline.py metrics \
+  --dataset-root Dataset \
   --results-root results/plantuml_pipeline
 ```
 
 To report syntax-valid and structurally-valid percentages:
 
 ```bash
-PYTHONPATH=code \
-python3 code/report_validity_percentages.py
+PYTHONPATH=Code \
+python3 Code/report_validity_percentages.py
 ```
 
 Run a quick check on one case:
 
 ```bash
-PYTHONPATH=code \
-python3 code/plantuml_experiment_pipeline.py run \
-  --dataset-root dataset \
+PYTHONPATH=Code \
+python3 Code/plantuml_experiment_pipeline.py run \
+  --dataset-root Dataset \
   --results-root results/plantuml_pipeline \
   --rag-db-dir results/rag_db \
-  --only-case-id case_01_example \
+  --only-case-id case_01_healthcare_portal \
   --runs 1 \
   --save-prompts
 ```
@@ -228,9 +228,9 @@ python3 code/plantuml_experiment_pipeline.py run \
 Run only one strategy by selecting its run IDs. For example, zero-shot:
 
 ```bash
-PYTHONPATH=code \
-python3 code/plantuml_experiment_pipeline.py run \
-  --dataset-root dataset \
+PYTHONPATH=Code \
+python3 Code/plantuml_experiment_pipeline.py run \
+  --dataset-root Dataset \
   --results-root results/plantuml_pipeline \
   --rag-db-dir results/rag_db \
   --only-run-id open_source__qwen25_7b_instruct__zero_shot \
@@ -247,9 +247,9 @@ For few-shot, replace `zero_shot` with `few_shot` and set
 Run only the RAG repair strategy:
 
 ```bash
-PYTHONPATH=code \
-python3 code/plantuml_experiment_pipeline.py run \
-  --dataset-root dataset \
+PYTHONPATH=Code \
+python3 Code/plantuml_experiment_pipeline.py run \
+  --dataset-root Dataset \
   --results-root results/plantuml_pipeline \
   --rag-db-dir results/rag_db \
   --only-run-id open_source__qwen25_7b_instruct__rag_validation_generator_critic_repair \

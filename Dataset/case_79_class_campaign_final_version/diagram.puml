@@ -46,7 +46,7 @@ Suspended --> Active : resumeCampaign
 
 
 Active --> Completed : campaignCancelled\n/cancelSchedule;\ncalculateCosts;\nprepareFinalStatement
-AdvertPreparation --> Completed : campaignCompleted\n/prepareFinalStatement
+Active --> Completed : campaignCompleted\n/prepareFinalStatement
 
 
 Completed --> Paid : paymentReceived(payment)\n[paymentDue - payment = 0]

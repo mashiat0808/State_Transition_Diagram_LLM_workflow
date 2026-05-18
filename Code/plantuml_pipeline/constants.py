@@ -4,9 +4,9 @@ import re
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_DATASET_ROOT = PROJECT_ROOT / "dataset"
+DEFAULT_DATASET_ROOT = PROJECT_ROOT / "Dataset"
 DEFAULT_RESULTS_ROOT = PROJECT_ROOT / "results" / "plantuml_pipeline"
-DEFAULT_RAG_DOCS_DIR = PROJECT_ROOT / "data" / "rag_corpus"
+DEFAULT_RAG_DOCS_DIR = PROJECT_ROOT / "Data" / "rag_corpus"
 DEFAULT_RAG_DB_DIR = PROJECT_ROOT / "results" / "rag_db"
 DEFAULT_RAG_COLLECTION_NAME = "uml_docs"
 

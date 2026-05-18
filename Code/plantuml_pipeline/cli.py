@@ -45,7 +45,7 @@ def build_parser() -> argparse.ArgumentParser:
     p_split.add_argument("--seed", type=int, default=42, help="Random seed")
     p_split.add_argument(
         "--output",
-        default="data/processed/experiments/split_35_seed42.json",
+        default="Data/processed/experiments/split_35_seed42.json",
         help="Path where split metadata is saved",
     )
     p_split.set_defaults(func=command_split)
@@ -89,7 +89,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p_run.add_argument(
         "--split-output",
-        default="data/processed/experiments/split_35_seed42.json",
+        default="Data/processed/experiments/split_35_seed42.json",
         help="Path where the generated train/test split metadata is saved",
     )
     p_run.add_argument(
