@@ -1,10 +1,12 @@
 # State Transition Diagram LLM Workflow
 
+MTA: REFER PAPER
+
 This repository contains the dataset, prompts, validation rules, and human evaluation materials used to study how LLMs generate UML state transition diagrams from natural-language requirements.
 
 ## Overview
 
-The repository supports several related workflows:
+The repository can be used to execute the following workflows:
 
 - direct generation of PlantUML state diagrams from requirements
 - one-shot and few-shot generation with example guidance
