@@ -22,6 +22,9 @@ State_Transition_Diagram_LLM_workflow/
 |-- Dataset/     Requirement cases and reference PlantUML diagrams.
 |-- Data/        Processed split files and retrieval resources.
 |-- Prompts/     Prompt templates for generation and repair.
+|-- results/
+|   `-- plantuml_pipeline/
+|                Generated diagrams, prompts, metadata, and metrics.
 |-- Evaluation form PDF
 |                Human evaluation form used in the study.
 |-- Validation rules for Structural Validation.pdf
@@ -31,10 +34,11 @@ State_Transition_Diagram_LLM_workflow/
 
 ## Documentation Guide
 
-1. [Code/README.md](Code/README.md) explains how to run the Python pipeline and command-line scripts.
-2. [Dataset/README.md](Dataset/README.md) explains the requirement case folders and reference diagram files.
-3. [Data/README.md](Data/README.md) explains the processed split file and RAG corpus resources.
-4. `Prompts/` contains the prompt templates used by the generation and repair workflows.
+1. [Code/README.md](Code/README.md) explains how to run the Python pipeline and command-line scripts. It supports Overview items 1-4 and produces outputs for item 5.
+2. [Dataset/README.md](Dataset/README.md) explains the requirement case folders and reference diagram files. It supports all generation and evaluation workflows in Overview items 1-5.
+3. [Data/README.md](Data/README.md) explains the processed split file and RAG corpus resources. It mainly supports Overview item 3.
+4. `Prompts/` contains the prompt templates used by the direct, example-guided, RAG, and repair workflows in Overview items 1-4.
+5. `results/plantuml_pipeline/` stores generated diagrams, saved prompts, metadata, and metric summaries used for evaluation and validation in Overview item 5.
 
 ## Dataset
 
