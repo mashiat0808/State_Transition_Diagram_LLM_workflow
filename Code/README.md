@@ -264,8 +264,8 @@ python3 Code/plantuml_experiment_pipeline.py run \
 Repair iteration summaries can be produced with:
 
 ```bash
-PYTHONPATH=code \
-python3 code/build_repair_iteration_artifacts.py
+PYTHONPATH=Code \
+python3 Code/build_repair_iteration_artifacts.py
 ```
 
 Generated diagrams, prompts, metadata, and metric summaries are written under
