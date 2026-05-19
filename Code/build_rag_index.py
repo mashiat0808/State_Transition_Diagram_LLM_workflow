@@ -5,7 +5,7 @@ import chromadb
 
 from plantuml_pipeline.prompting import _rag_doc_source_type
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJECT_ROOT / "Data"
 RESULTS_DIR = PROJECT_ROOT / "results"
 
