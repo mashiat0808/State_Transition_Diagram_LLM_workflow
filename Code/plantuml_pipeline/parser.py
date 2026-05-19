@@ -89,7 +89,6 @@ def extract_plantuml_block(text: str) -> str:
 
 
 def strip_inline_comment(line: str) -> str:
-    # PlantUML uses single quote for inline comments.
     if "'" in line:
         return line.split("'", 1)[0]
     return line

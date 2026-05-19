@@ -1,24 +1,4 @@
 #!/usr/bin/env python3
-"""Create repair-iteration review folders and summary tables.
-
-The repair pipeline can attempt one or more repair calls before the final
-diagram is chosen. This script keeps only final structurally valid repair
-cases, then groups them by attempted repair-loop count so they can be inspected
-manually and reported separately. Therefore `repair_at_once` means the loop
-stopped after one repair model call, and `repair_at_zero_iterations` means the
-original candidate was already structurally valid so no repair call was needed.
-
-Outputs:
-  results/plantuml_pipeline/repair_iteration_review/
-  results/human_evaluation_likert/exact_repair_iteration_0_table_score_only_with_n.csv
-  results/human_evaluation_likert/exact_repair_iteration_1_table_score_only_with_n.csv
-  results/human_evaluation_likert/exact_repair_iteration_2_table_score_only_with_n.csv
-  results/human_evaluation_likert/exact_repair_iteration_3_table_score_only_with_n.csv
-  results/human_evaluation_likert/exact_repair_iteration_4_table_score_only_with_n.csv
-  results/human_evaluation_likert/exact_repair_iteration_5_table_score_only_with_n.csv
-  results/human_evaluation_likert/exact_repair_iterations_0_1_2_table_score_only_with_n.csv
-"""
-
 from __future__ import annotations
 
 import argparse

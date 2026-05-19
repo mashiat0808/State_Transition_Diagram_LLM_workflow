@@ -518,7 +518,6 @@ def command_table(args: argparse.Namespace) -> int:
     else:
         rows = json.loads(source_file.read_text(encoding="utf-8"))
 
-    # Add a derived percentage field for convenient reporting.
     for row in rows:
         if "structural_valid_rate" in row:
             try:

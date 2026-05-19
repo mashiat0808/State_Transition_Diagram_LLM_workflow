@@ -119,7 +119,6 @@ def _event_similarity(event_a: str, event_b: str) -> float:
     if not norm_a and not norm_b:
         return 1.0
     if not norm_a or not norm_b:
-        # Keep unlabeled/labeled transitions partially compatible.
         return 0.70
 
     set_a = set(norm_a.split())
@@ -195,7 +194,6 @@ def compute_metrics(
     missing_transition_rate = t_fn / len(gold_transitions) if gold_transitions else 0.0
     overall_f1 = (s_f1 + t_f1) / 2.0
 
-    # Relaxed metrics: normalize state naming and ignore transition event text.
     pred_states_relaxed = {k for k in (_state_key(s) for s in pred_states) if k}
     gold_states_relaxed = {k for k in (_state_key(s) for s in gold_states) if k}
     pred_transitions_relaxed = {
@@ -366,7 +364,6 @@ def summarize_metrics(rows: list[dict[str, Any]]) -> tuple[list[dict[str, Any]],
                 }
             )
 
-        # Stability: std-dev of overall_f1 across repeated runs for each case, then averaged.
         by_case: dict[str, list[dict[str, Any]]] = {}
         for item in group:
             by_case.setdefault(item["case_id"], []).append(item)
